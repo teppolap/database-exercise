@@ -14,4 +14,4 @@ Ice Hockey Winter Olympics 2022 - Men's Tournament
 
 ## Documentation
 
- Visit the exercise webpage: [Database Exercise Webpage](https://student.labranet.jamk.fi/~AB7340/Tietokannat/Harjoituspalautukset/harjotustyo/Harjoitustyo.html)
+ Visit the exercise webpage: [Database Exercise Webpage](https://student.labranet.jamk.fi/~AB7340/Tietokannat/Harjoituspalautukset/harjotustyo/Harjoitustyo.html) (In finnish).
