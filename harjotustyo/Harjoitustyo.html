@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Harjoitustyö - Tietokannat</title>
+
+<style>
+
+    body {
+        max-width: 80%;
+        background-color: rgb(240, 248, 255);
+        margin: 5%;
+    }
+    /* img {
+        height: 170px;
+        width: auto;
+        position: absolute;
+        top: 60px;
+        right: 250px; */
+    /* } */
+
+    a:link {
+        width: 80%;
+        font-family: "Calibri", sans-serif;
+        text-decoration: underline;
+        color:dimgray;
+    }
+
+    a:hover{
+        color:rgb(20, 19, 20);
+        text-decoration: underline;
+        cursor:pointer;
+    }
+
+
+</style>
+
+</head>
+
+<body>
+
+<pre>
+
+<h2>Tietokannat harjoitustyö [TTC2030-3009]
+Työryhmä: Teppo Lappalainen [AB7340], Maria Matilainen [AA5962], Jim Lindholm [AB7342]
+Jääkiekko talviolympialaiset 2022 - miesten turnaus 
+Versio 3.2
+</h2>
+</pre>
+
+<img src="logo.png" alt="kuva" height="170" width="auto" style="position: absolute; top: 60px; right: 250px;">
+
+<a style="font-size: large;" href="https://student.labranet.jamk.fi/~AB7340/Tietokannat/Harjoituspalautukset/harjotustyo/script.pdf">Täältä löytyy Scripti</a>
+
+<h2>Vaatimusmäärittely</h2>
+
+
+<h3> Johdanto </h3>
+<p>
+Kyseinen harjoitustyö on toteutettu JAMKin IT-instituutin toimeksiannon pohjalta kurssille TTC2020-3009. Toimeksiantajan vaatimuksena oli luoda 2022 Pekingin 
+talviolympialaisten jääkiekosta tietokanta, johon tallennetaan kaikki osallistuneet joukkueet, ottelutuloksia ja sijoitukset. Kätevän tietokannan avulla on helppo 
+hakea tietoa haluamastaan joukkueesta, pelaajista ja heidän pelaamista otteluista. Tietokanta on suunniteltu urheilualan ammattilaisia sekä asiasta kiinnostuneita varten.
+</p>
+
+<h3> Yleiskuvaus </h3>
+<p>
+    Harjoitustyöjärjestelmä on toteutettu MYSQL Workbenchin versiolla 8.0.28 JAMKin Labranetin MariaDB-palvelimelle. Workbenchillä toteutetaan EER-kaavio, 
+    jonka pohjalta tietokanta luodaan ”Forward Engineering”-toiminnolla. Emme luo tietokannan yhteyteen käyttöliittymää (jonka voisi luoda esim. Microsoft Accesilla) 
+    ajanpuutteen vuoksi, sillä emme ehtisi perehtyä ohjelman käyttöön tarpeeksi, 
+    jotta saisimme luotua järkevän käyttöliittymän. Tarkoituksena on ns. korvata käyttöliittymän puutetta näkymillä ja tietokannan toimivuutta todistavilla SQL-kyselyillä.
+</p>
+
+<p>
+<h3>Toiminnot:</h3>
+    <ul>
+ <b>Jääkiekosta kiinnostuneet kuluttajat: </b> <br>
+
+- Tietokantaan on koottu kätevästi 2022 olympialaisissa jääkiekkoa pelanneiden maajoukkueiden tiedot, jotta ne ovat helposti asiasta kiinnostuneiden saatavilla <br>
+
+- Pelaajista on saatavilla perustiedot, esim. nimi, ikä, pelipaikka <br>
+
+- Tietokannasta on selkeästi nähtävillä jokaisen ottelun tulokset, jotta ne löytyvät helposti joukkueittain, eikä tarvitse selata useita sivuja löytääkseen kaikkea tietoa <br>
+
+- Pystyy seuraamaan otteluissa pelanneiden pelaajien tehopisteitä <br>
+
+- Millaiset lohkot kisassa on ja keitä niihin kuuluu <br>
+
+<b>Pelaajat ja muut urheilualan ammattilaiset: </b> <br>
+
+- Pelaajien on mahdollista jälkikäteen tarkastella suoriutumista vuoden 2022 talviolympialaisissa <br>
+
+- Toimittajat pystyvät kätevästi hakemaan tietoa haluamastaan joukkueesta ja saavutuksista esim. urheilu-uutisia/haastatteluja varten <br>
+
+- Urheiluselostajille on koottu kaikki tarvittava tieto yhteen paikkaan sujuvaa työskentelyä varten
+    </ul>
+</p>
+
+<h3>Käyttö</h3>
+
+<ul>
+    - Pelaajilla ja heidän seuran toimihenkilöillä on pääsy tietokantaan ja he voivat ilmoittaa mahdollisista muutoksista, esim. pelaajan seuran muuttumisesta <br>
+    
+    - Tietokantaan on helppo lisätä myöhemmässä vaiheessa kaikki mahdolliset ottelut ja niiden tulokset <br>
+    
+    - Tietokannan päivittäminen seuraavalle tasolle on helppoa, ja on mahdollista lisätä yksityiskohtaistakin tietoja esim. otteluista, kuten jäähyt, peliminuutit yms.
+</ul>
+
+<h3>Toteutustyökalut:</h3>
+
+<ul>
+    - MySQL Workbench v. 8.0.28 <br>
+
+    - Tietokannan omat rajoitukset tiedoille <br>
+
+    - JAMKin Labranetin MariaDB-palvelin
+</ul>
+
+<h3>Liitokset muihin järjestelmiin:</h3>
+    <ul>
+        Järjestelmään voidaan hakea tietoja muista tulospalveluista: <br>
+        - EliteProspects <br>
+
+        - Livetulokset.com
+    </ul>
+
+<h3>Toiminnot, käyttöliittymä:</h3>
+    <ul>
+        - Windows 10 64-bit sekä Linux-käyttöjärjestelmä <br>
+
+        - MySQL Workbench <br>
+
+        - MySQL komentokehoite <br>
+
+        - MariaDB-palvelin
+    </ul>
+
+<h3>Ei-toiminnalliset ominaisuudet:</h3>
+    <ul>
+        - Vasteajat pyritään pitämään alle 1 sekunnissa, jotta tietokannasta pystytään hakemaan nopeasti tietoja eri otteluista ja joukkueista <br>
+
+        - Tietoturva: tietoja ei ole tarpeen salata niiden ollessa jokatapauksessa julkisia muissa ympäristöissä, ja ne ovat tässäkin tapauksessa kaikkien kuluttajien saatavilla<br>
+
+        - Käytettävyys: näkymien ja indeksien luonti nopeuttaakseen ja helpottaakseen tietojen hakemista tietokannasta<br>
+
+        - Ylläpidettävyys: tietoja on helppo päivittää ja lisätä tauluihin yksityiskohtaista informaatiota, jos tarve vaatii sitä jälkikäteen <br>
+
+        - Siirrettävyys: tietokannan kopioiminen/lähettäminen MySQL Workbench filenä
+    </ul>
+
+    <h3>Toiminnalliset ominaisuudet:</h3>
+        <ul>
+            - Pelaajien lisääminen joukkueisiin <br>
+            - Tehopisteiden päivittäminen ja lisääminen <br>
+            - Otteluiden ja tulosten lisääminen <br>
+            - Joukkueiden tietojen lisääminen ja ylläpito <br>
+            - Joukkueiden lisääminen lohkoihin <br>
+        </ul>
+
+
+<h2>Käsiteanalyysi:</h2>
+
+<p>
+    Perusideana tietokantaa tehtäessä oli liittää se urheiluun ja tarkemmin jääkiekkoon. Vaatimuksena selkeästi listattavissa olevat sarakkeet, <br>
+    joihin tallennetaan täsmällisesti tarvittavat tiedot. Tietokannan ideana on tuoda urheilua seuraaville sekä urheilualan ammattilaisille tiedot olympialaisista <br>
+    helposti saataville. <br>
+    <br>
+    Tietokanta pyritään pitämään mahdollisimman yksinkertaisena niin, että tauluja olisi vain muutama ja niiden väliset liitokset saadaan toimimaan. <br>
+    Alkuperäinen suunnitelmamme oli tehdä tietokanta vain Suomen joukkueen pelaajista liittäen mukaan heidän aikaisempia saavutuksiaan, mutta nopeasti huomasimme, <br>
+    ettei tietokannasta saatu tehtyä tarpeeksi laajaa mutta samalla yksinkertaista. <br>
+</p>
+
+<a style="font-size: large;" href="https://student.labranet.jamk.fi/~AB7340/Tietokannat/Harjoituspalautukset/harjotustyo/versiot.pdf">Tästä pääset katsomaan aikaisempia versioita </a>
+
+<p>Lähdimme muotoilemaan käsiteanalyysia uudelleen, ja valitsimme uudeksi aiheeksi kaikkien joukkueiden menestyksen vuoden 2022 talviolympialaisten miesten jääkiekossa. <br>
+     Koimme, että kaikkien joukkueiden tiedon tallentaminen ja sitä kautta kansainvälisesti kiinnostava tieto toimii tietokannan perustana. <br>
+     Myöhemmin käsitemallissa perustellaan käsitevalinnat ja niiden kautta syntyneet taulut ja yhteydet.  </p>
+
+<h2>Käsitemalli:</h2>
+
+<ul>- Ottelut - mitalit <br>
+    - ottelutulokset - tilastot <br>
+    - Joukkueet - etu-, sukunimi <br>
+    - Lohkot - ikä <br>
+    - Pelaaja(t) - tehopisteet <br>
+    - Tapahtuma - pelipaikka <br>
+    - paikka - kapteeni/varakapteeni<br> 
+    - Sijoitus - pistepörssi <br>
+    - Taulukot mahd. <br>
+    - Pelaajat – nimi, sukunimi, ikä, pelipaikka <br> 
+    - Joukkueet –joukkueiden nimet, huoltajat <br>
+    - Ottelut – alkulohko, puolivälierä, semifinaalit, finaalit <br>
+    - ottelutulokset - <br>
+    - sijoitukset – sija, mitali <br> 
+    - Lohkot – A, B, C </ul>
+
+<p>
+    Olemme nyt lopulta päätyneet ensin neljään tauluun (pelaajat, ottelu, lohkot, joukkue) ja myöhemmin lisätäksemme tietokannan käytettävyyttä lisäsimme urheiluista <br>
+    kiinnostuneille tärkeän taulun nimeltä tehopisteet. Tehopisteitä seurataan hyvin usein ja niitä toistetaan usein urheiluselostuksissa ja tapahtumissa. 
+</p>
+
+<img src="kaava1.PNG" alt="kaava1"> <br>
+
+   <img src="kaava2.PNG" alt="kaava1"> <br>
+
+    <h2>Lopullinen EER-kaavio</h2>
+
+   <img src="kaava3.png" alt="kaava3"  height="450px" width="auto">
+   <h3>Tietokannan rajoitukset</h3>
+   <p>
+       <ul>
+           <li>Pelaaja voi kuulua vain yhteen joukkueeseen</li>
+           <li>Joukkue voi kuulua vain yhteen lohkoon</li>
+           <li>Ottelulla voi olla vain kaksi joukkuetta</li>
+       </ul>
+   </p>
+   <h3>Tietokannan taulujen väliset yhteydet</h3>
+   <p>
+       <ul>
+           <li>Pelaaja voi tehdä useita tehopisteitä useissa otteluissa/samassa ottelussa</li>
+           <li>Useampi pelaaja kuuluu samaan joukkueseen</li>
+           <li>Samaan lohkoon kuuluu useampia joukkueita</li>
+           <li>Joukkue pelaa useita otteluita turnauksen aikana</li>
+           <li>Sama joukkue voi olla eri otteluissa joko kotijoukkue tai vierasjoukkue</li>
+       </ul>
+   </p>
+
+<h2>Datan lisäystä tietokantaan</h2>
+
+<h3>Lohkojen lisäys:</h3>
+ <p>  INSERT INTO lohkot (lohko) VALUES <br>
+    ('A'), <br>
+    ('B'), <br>
+    ('C')
+</p>
+
+<h3>Joukkueiden lisäys lohkoihin:</h3>
+<p>INSERT INTO joukkue (joukkuenimi, lohkoid) VALUES <br>
+    ('Suomi', 3), <br>
+    ('Ruotsi',3), <br>
+    ('ROC',2), <br>
+    ('Tanska',2), <br>
+    ('Kanada',1), <br>
+    ('USA',1)</p>
+
+<h3>Pelaajien lisäys joukkueisiin:</h3>
+<p><b>Suomen joukkue:</b></p>
+<p>INSERT INTO pelaajat (etunimi, sukunimi, syntyma_aika, pelipaikka, joukkueid) VALUES <br>
+    ('Teemu', 'Hartikainen', '1990-05-03', 'hyokkaaja', 1),<br>
+    ('Iiro', 'Pakarinen', '1991-05-25', 'hyokkaaja', 1),<br>
+    ('Harri', 'Pesonen', '1988-07-06', 'hyokkaaja', 1),<br>
+    ('Sakari', 'Manninen', '1992-02-10', 'hyokkaaja', 1),<br>
+    ('Sami', 'Vatanen', '1991-06-03', 'puolustaja', 1)</p>
+
+<p><b>Ruotsin joukkue:</b></p>
+<p>INSERT INTO pelaajat (etunimi, sukunimi, syntyma_aika, pelipaikka, joukkueid) VALUES <br>
+    ('Lucas', 'Wallmark', '1995-09-05', 'hyokkaaja', 2),<br>
+    ('Lukas', 'Bengtsson', '1994-04-14', 'puolustaja', 2),<br>
+    ('Anton', 'Lander', '1991-04-24', 'hyokkaaja', 2),<br>
+    ('Jonathan', 'Pudas', '1993-04-26', 'puolustaja', 2),<br>
+    ('Mathias', 'Brome', '1994-07-29', 'hyokkaaja', 2)
+</p>
+
+<p><b>ROC joukkue:</b></p>
+<p>INSERT INTO pelaajat (etunimi, sukunimi, syntyma_aika, pelipaikka, joukkueid) VALUES <br>
+    ('Pavel', 'Karnaukhov', '1997-03-15', 'hyokkaaja', 3),<br>
+    ('Anton', 'Slepyshev', '1994-05-13', 'hyokkaaja', 3),<br>
+    ('Dmitri', 'Voronkov', '2000-09-10', 'hyokkaaja', 3),<br>
+    ('Kirill', 'Semyonov', '1994-10-27', 'hyokkaaja', 3),<br>
+    ('Vadim', 'Shipachyov', '1987-03-12', 'hyokkaaja', 3)
+</p>
+
+<p><b>Tanskan joukkue:</b></p>
+<p>INSERT INTO pelaajat (etunimi, sukunimi, syntyma_aika, pelipaikka, joukkueid) VALUES <br>
+    ('Nicklas', 'Jensen', '1993-03-06', 'hyokkaaja', 4),<br>
+    ('Oliver', 'Lauridsen', '1989-03-24', 'puolustaja', 4),<br>
+    ('Mikkel', 'Boedker', '1989-12-16', 'hyokkaaja', 4),<br>
+    ('Frederik', 'Storm', '1989-02-20', 'hyokkaaja', 4),<br>
+    ('Mathias', 'Bau', '1993-07-03', 'hyokkaaja', 4)
+</p>
+
+<p><b>Kanadan joukkue:</b></p>
+<p>INSERT INTO pelaajat (etunimi, sukunimi, syntyma_aika, pelipaikka, joukkueid) VALUES <br>
+('Mat','Robinson','1989-06-20','puolustaja',5), <br>
+('Corban','Knight','1990-09-10','hyokkaaja',5), <br>
+('Josh','Ho-Sang','1996-01-22','hyokkaaja',5), <br>
+('Erik','Staal','1984-10-29','hyokkaaja',5), <br>
+('Daniel','Winnik','1985-03-06','hyokkaaja',5)
+</p>
+
+<p><b>USAn joukkue:</b></p>
+<p>INSERT INTO pelaajat (etunimi, sukunimi, syntyma_aika, pelipaikka, joukkueid) VALUES <br>
+    ('Sean','Farrell','2001-11-02','hyokkaaja',6),  <br>
+    ('Brian','Cooper','1993-11-01','puolustaja',6), <br>
+    ('Marc','McLaughlin','1999-07-26','hyokkaaja',6), <br>
+    ('Noah','Cates','1999-02-05','hyokkaaja',6), <br>
+    ('Steven','Kampfer','1988-09-24','puolustaja',6)
+
+<h3>Tehopisteiden lisäys:</h3>
+<p><b>ROC vs Tanska:</b></p>
+<p>INSERT INTO tehopisteet (pelaajaid, joukkueid, otteluid, maalit, syotot) VALUES <br>
+    (11, 3, 1, 1, 0),<br>
+    (12, 3, 1, 0, 1),<br>
+    (13, 3, 1, 0, 1),<br>
+    (14, 3, 1, 1, 0)
+</p>
+
+<p><b>Ruotsi vs Suomi:</b></p>
+<p>INSERT INTO tehopisteet (pelaajaid, joukkueid, otteluid, maalit, syotot) VALUES <br>
+(6, 2, 2, 1, 0),  <br>
+(7, 2, 2, 1, 0),  <br>
+(8, 2, 2, 1, 0),  <br>
+(9, 2, 2, 0, 2), <br>
+(10, 2, 2, 0, 1)<br>
+(1, 1, 2, 1, 2)<br>
+(2, 1, 2, 2, 0)<br>
+(3, 1, 2, 1, 0)<br>
+(4, 1, 2, 0, 2)<br>
+(5, 1, 2, 0, 1)
+</p>
+
+<p><b>USA vs Kanada:</b></p>
+<p>INSERT INTO tehopisteet (pelaajaid, joukkueid, otteluid, maalit, syotot) VALUES <br>
+(21,5,3,1,0), <br>
+(22,5,3,1,0), <br>
+(23,5,3,0,1), <br>
+(24,5,3,0,1), <br>
+(25,5,3,0,1), <br>
+(26,6,3,0,0), <br>
+(27,6,3,0,0),<br>
+(28,6,3,0,0),<br>
+(29,6,3,0,1), <br>
+(30,6,3,0,1)
+
+<h2>Erilaisia hakuja:</h2>
+
+<h3> Tietyn joukkueen pelaajien hakeminen:</h3>
+<p>SELECT etunimi, sukunimi, joukkuenimi <br>
+    FROM pelaajat<br>
+    INNER JOIN joukkue<br>
+         ON joukkue.joukkueid = pelaajat.joukkueid<br>
+    WHERE pelaajat.joukkueid = 1</p>
+<img src="haku1.PNG" alt="haku1"> <br>
+
+<h3>Tietyn lohkon joukkueet:</h3>
+<p>SELECT joukkuenimi, lohko FROM joukkue <br>
+    INNER JOIN lohkot<br>
+        ON joukkue.lohkoid = lohkot.lohkoid <br>
+    WHERE joukkue.lohkoid = 2</p>
+
+<img src="haku2.PNG" alt="haku2">
+
+<h3>Maaleista ja syotoista tehty tehopisteet pelaajien mukaan:</h3>
+<p>SELECT sukunimi, etunimi, maalit, syotot, (maalit + syotot) AS tehopisteet <br>
+    FROM tehopisteet<br>
+    INNER JOIN pelaajat<br>
+         ON pelaajat.pelaajaid = tehopisteet.pelaajaid<br>
+    ORDER BY tehopisteet DESC</p>
+
+<img src="haku3.PNG" alt="haku3">
+
+<p> <b>Tehdään samaisesta kyselystä näkymä helpottaakseen etsintää:</b></p>
+
+<p>CREATE VIEW pisteet (sukunimi, etunimi, tehopisteet) AS <br>
+    SELECT sukunimi, etunimi, (maalit + syotot) AS tehopisteet <br>
+    FROM tehopisteet<br>
+    INNER JOIN pelaajat<br>
+    ON pelaajat.pelaajaid = tehopisteet.pelaajaid;<br>
+    SELECT * FROM pisteet<br>
+    ORDER BY tehopisteet DESC;</p>
+ 
+<img src="view.PNG" alt="view">
+
+<h3>Pelaajien tiedoista haetaan pelkät puolustajat:</h3>
+<p>
+    SELECT * FROM pelaajat: <br>
+WHERE pelipaikka = 'puolustaja'
+</p>
+
+<img src="haku4.PNG" alt="haku4">
+
+<h2>Itsearvioinnit</h2>
+
+<h3>Maria Matilainen</h3>
+<p>Ryhmätyöskentely oli sujuvaa ja harjoitustyön tekemiseen meni osaltani noin 30 tuntia. Suurimpana vastuualueenani oli vaatimusmäärittelyn kirjoittaminen, ja sen lisäksi olen suunnitellut käsitemallia ja tauluja yhdessä ryhmän kanssa. 
+    Olen lisännyt tauluihin noin 1/3 esimerkkidatasta ja sen jälkeen ollut mukana tekemässä tietokannan toimivuutta testaavia SQL-kyselyjä. Meillä ryhmässä ei ollut täysin selkeitä rooleja kuka tekee mitäkin, vaan pohdimme asioita paljon yhteisesti. 
+    Yleisesti olen mielestäni onnistunut ryhmän jäsenenä ja saanut riittävän ymmärryksen työn alla olevasta tehtävästä. Aluksi ei ehkä ollut niin hyvin uuden tietokannan
+    luominen ja taulujen väliset yhteydet muistissa, mutta ne palautuivat hyvin mieleen työtä tehdessä. Arvosanaksi ehdottaisin itselleni 3.</p>
+
+<h3>Jim Lindholm</h3>
+<p>Työskentely sujui hyvin ryhmässä. Teimme yhdessä Tepon luona harjoitustyötä suurimmaksi osaksi. Aikaa kului noin 30 tuntia. 
+    Minulla ei ollut ryhmässä kovin tarkkaa roolia, olin mukana vähän kaikessa.  Piirsin käsitemallin yhdessä hahmoteltujen käsitteiden pohjalta, 
+    olin mukana lisäämässä esimerkki dataa tauluihin ja myös testaamassa tietokannan toimivuutta jne. Mielestäni onnistuimme dokumentoinnissa hyvin 
+    mutta tietokanta jäi ehkä hieman alle odotuksien. Tajusimme vasta aika pitkällä, että valitsimme melko vaikean aiheen, joten jäimme jumiin monesti. Muuten arvoisin työn arvosanaksi 4.</p>
+
+<h3>Teppo Lappalainen</h3>
+<p>Työskentely sujui minun osaltani hyvin ja työskentelyyn kului pyöreät 30 tuntia. Työtehtäviini kuului dokumentaation tekoaa, taulukoiden keksimistä ja suunnitelua, HTML-sivuston
+    tekeminen sekä tietojen lisäämistä valmiiseen tietokantaan. Onnistuimme mielestäni dokumentoinnissa ja tietojen lisäämisessä tietokantaan. Huomasimme liian myöhään kuinka laaja ja monimutkainen
+    tästä tietokannasta tulisi, mutta yritimme parhaamme sen saadaksemme sen toimimaan halutulla tavalla. Arvosanaksi antaisin itselleni 3.5.
+</p>
+</body>
+
+</html>
